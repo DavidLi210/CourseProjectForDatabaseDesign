@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>AddUser</title>
+  </head>
+  <body>
+  <?php echo validation_errors(); ?>
+  <hr>
+   	<form action="<?php echo site_url('admin/borrower/insert');?>" method="post" >
+   	<table>
+   		<tr>
+   			<td>BorrowerName</td>
+   			<td>
+   				<input type="text" name="bname" value="<?php echo set_value('bname'); ?>">
+   			</td>
+   		</tr>
+   		<tr>
+   			<td>SSN</td>
+        
+   			<td>
+   				<input type="text" name="ssn" value="<?php echo set_value('ssn'); ?>">
+   			</td>
+        <td><div id="s1"></div></td>
+   		</tr>
+   		<tr>
+   			<td>Address</td>
+   			<td>
+				<input type="text" name="address" value="<?php echo set_value('address'); ?>">
+   			</td>
+   		</tr>
+   		<tr>
+        <td>Phone</td>
+        <td>
+          <input type="text" name="phone" value="<?php echo set_value('phone'); ?>">
+        </td>
+      </tr>
+   		<tr>
+   			<td></td>
+   			<td>
+				<input type="submit" value="AddBorrower">
+   			</td>
+   		</tr>
+   	</table>
+   	</form>
+    <!-- <script type="text/javascript">
+      function validate_Ssn(ssn){
+        var xmlhttp;
+        if(window.XMLHttpRequest){
+          xmlhttp  = new XMLHttpRequest();
+        }else{
+          xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function(){
+          if(xmlhttp.readyState ==4&&xmlhttp.status==200){
+            var text = xmlhttp.responseText;
+            var s = document.getElementById('s1');
+    
+            if(text=="yes"){
+              s.innerHTML = "This ssn has already been used";
+              return true;
+            }else if(text=="no"){
+              s.innerHTML = "This ssn hasnt already been used";
+              return false;
+            }
+          }
+        }
+      }
+    </script> -->
+  </body>
+</html>

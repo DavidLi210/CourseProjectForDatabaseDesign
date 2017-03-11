@@ -1,0 +1,32 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>List User</title>
+  </head>
+  
+  <body style="text-align: center;">
+   	<br/>	<br/>
+   	<table width="80%" frame="border">
+   		<tr>
+   			<td>Bname</td>
+   			<td>Ssn</td>
+        <td>Card_id</td>
+   			<td>Address</td>
+   			<td>Phone</td>
+   		</tr>
+   		
+   		<?php foreach($borrowers as $borrower): ?>
+   			<tr>
+	   			<td><?php echo $borrower['Bname'] ?></td>
+	   			<td><?php echo $borrower['Ssn'] ?></td>
+          <td><?php echo $borrower['Card_id'] ?></td>
+	   			<td><?php echo $borrower['Address'] ?></td>
+          <td><?php echo $borrower['Phone'] ?></td>
+   			</tr>
+   		<?php endforeach ;?>
+   	</table>
+   	<?php echo $pageinfo;?>
+  </body>
+</html>
+

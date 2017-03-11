@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Check Out Books</title>
+  </head>
+  
+  <body>
+   	<form action="<?php echo site_url('admin/loan/insert');?>" method="post">
+   	<table>
+   		<tr>
+   			<td>Isbn of Book</td>
+   			<td>
+   				<input type="text" name="Isbn" value="<?php echo set_value('Isbn'); ?>">
+   			</td>
+   		</tr>
+   		<tr>
+   			<td>Card_Id of Borrower</td>
+   			<td>
+				<input type="text" name="Card_id" value="<?php echo set_value('Card_id'); ?>">
+   			</td>
+   		</tr>
+   		<tr>
+   			<td>
+				<input type="submit" value="Check Out">
+   			</td>
+   		</tr>
+   	</table>
+   	</form>
+  </body>
+</html>
