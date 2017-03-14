@@ -33,7 +33,7 @@ class Fine_model extends CI_Model{
 		return $this->db->query($sql);
 	}
 	public function updateReturned($Loan_id){
-		$sql = "update fines set Fine_amt = (select TIMESTAMPDIFF(DAY, Due_date,CURRENT_TIMESTAMP )*0.25 from book_loans where Loan_id = '".$Loan_id."') where Loan_id = '".$Loan_id."' and Paid ='0'";
+		$sql = "update fines set Fine_amt = (select TIMESTAMPDIFF(DAY, Due_date,Date_in )*0.25 from book_loans where Loan_id = '".$Loan_id."') where Loan_id = '".$Loan_id."' and Paid ='0'";
 		return $this->db->query($sql);
 	}
 	 /*select * from book_loans bl where bl.Loan_id in (select Loan_id from fines)*/

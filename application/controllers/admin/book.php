@@ -5,6 +5,7 @@ class Book extends AdminController{
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('book_model');
+		$this->load->model('author_model');
 		$this->load->helper('string');
 		$this->load->library('pagination');
 		$this->load->library('cart');
@@ -33,8 +34,13 @@ class Book extends AdminController{
 	}
 	public function insert(){
 		$data['Title'] = $this->input->post('title');
-		$data['Isbn'] = random_string('alnum', 10);
-		if($this->book_model->insert($data)){
+		$data['Author'] = $this->input->post('author');
+		$data['Cover'] = $this->input->post('cover');
+		$data['Publisher'] = $this->input->post('publisher');
+		$data['Pages'] = $this->input->post('pages');
+		$data['Isbn'] = random_string('numeric', 10);
+		$data['Isbn13'] = random_string('numeric', 13);
+		if($this->author_model->insert($data['Author'])&$this->book_model->insert($data)){
 			$data['message'] = 'Insert Successfully';
 			$data['wait'] = 3;
 			$data['url'] = site_url('admin/book/index');

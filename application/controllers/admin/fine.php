@@ -45,20 +45,21 @@ class Fine extends AdminController{
 			foreach ($data['loans'] as $loan) {
 				if($this->fine_model->exists($loan['Loan_id'])==0){
 					$this->fine_model->insert($loan['Loan_id']);
-					if($loan['Date_in']=='NULL'){
+					if(is_null($loan['Date_in'])||$loan['Date_in']=='null'){
 						$this->fine_model->updateNotReturned($loan['Loan_id']);
 					}else{
 						$this->fine_model->updateReturned($loan['Loan_id']);
+
 					}
-				}else if($this->fine_model->paid($loan['Loan_id'])=='0'){
-					if($loan['Date_in']=='NULL'){
+				}else {
+					if(is_null($loan['Date_in'])||$loan['Date_in']=='null'){
 						$this->fine_model->updateNotReturned($loan['Loan_id']);
 					}else{
 						$this->fine_model->updateReturned($loan['Loan_id']);
 					}
 				}
 			}
-			
+			/*if($this->fine_model->paid($loan['Loan_id'])=='0')*/
 		}
 		$data['fines'] = $this->fine_model->list();
 		$this->load->view('listfines.html',$data);

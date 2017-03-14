@@ -33,7 +33,7 @@ class Loan_model extends CI_Model{
 		return $query->num_rows();
 	}
 	public function getDueLoans(){
-		$sql = "select Loan_id,Date_in from book_loans where Date_in is null or Date_in > Due_date";
+		$sql = "select Loan_id,Date_in from book_loans where (Date_in is null and CURRENT_TIMESTAMP > Due_date) or Date_in > Due_date";
 		$query = $this->db->query($sql);
 		$result = $query->result_array();
 		return $result;
