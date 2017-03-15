@@ -17,7 +17,7 @@ class Fine extends AdminController{
 		$this->load->view('listfines.html',$data);
 	}
 	public function pay($Loan_id){
-		if($this->loan_model->checkReturnByIsbn($Loan_id)==0){
+		if($this->loan_model->checkReturnByLoanid($Loan_id)!=0){
 			$data['message'] = 'Please return book before pay for fines';
 			$data['wait'] = 3;
 			$data['url'] = site_url('admin/fine/index');
@@ -28,7 +28,7 @@ class Fine extends AdminController{
 			$data['url'] = site_url('admin/fine/index');
 			$this->load->view('message.html',$data);
 		}else{
-			$data['message'] = 'Pay for fines Successfully';
+			$data['message'] = 'Pay for fines Unsuccessfully';
 			$data['wait'] = 3;
 			$data['url'] = site_url('admin/fine/index');
 			$this->load->view('message.html',$data);

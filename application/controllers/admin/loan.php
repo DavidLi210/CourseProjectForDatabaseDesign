@@ -5,13 +5,12 @@ class Loan extends AdminController{
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('loan_model');
+		$this->load->model('book_model');
 		$this->load->model('borrower_model');
 		$this->load->model('fine_model');
 		$this->load->helper('string');
 		$this->load->library('pagination');
-		$this->load->library('cart');
 		$this->load->library('form_validation');
-
 	}
 	public function add(){
 		$this->load->view('addorder.html');
@@ -46,7 +45,7 @@ class Loan extends AdminController{
 			$data['wait'] = 3;
 			$data['url'] = site_url('admin/loan/index');
 			$this->load->view('message.html',$data);
-		}else if($this->loan_model->insert($data)&$this->loan_model->updateAvailability($data['Isbn'])){
+		}else if($this->addToCart($data)&$this->loan_model->updateAvailability($data['Isbn'])){
 			$data['message'] = 'Chechout Successfully';
 			$data['wait'] = 3;
 			$data['url'] = site_url('admin/loan/index');
@@ -57,6 +56,68 @@ class Loan extends AdminController{
 			$data['url'] = site_url('admin/loan/index');
 			$this->load->view('message.html',$data);
 		}
+	}
+	public function addToCart($data){
+		$loanCart = $this->session->userdata('loanCart');
+		$loanCart[$data['Loan_id']] = $data;
+		$this->session->set_userdata('loanCart', $loanCart);
+		return true;
+		/*$this->loan_model->insert($data)&$this->loan_model->updateAvailability($data['Isbn'])*/
+	}
+	public function listCart(){
+		$data['loans'] = $this->session->userdata('loanCart');
+		if(is_null($data['loans'])){
+			$data['loans']['Loan_id'] = null;
+			$data['loans']['Card_id'] = null;
+			$data['loans']['Isbn'] = null;
+		}
+/*		var_dump($data);
+		exit();*/
+		$this->load->view("listcart.html",$data);
+		
+		
+	}
+	public function cartRemove($Isbn){
+		$this->loan_model->updateAvailabilityByIsbn($Isbn);
+		$loanCart = $this->session->userdata('loanCart');
+		foreach ($loanCart as $Loan_id => $value) {
+			foreach ($value as $k => $v) {
+				if ($k=='Isbn'&&$v==$Isbn) {
+					unset($loanCart[$Loan_id]);
+				}
+			}
+		}
+		$this->session->set_userdata('loanCart', $loanCart);
+		redirect('admin/loan/listCart');
+	}
+	public function checkOutCart(){
+		$loans = $this->input->post();
+/*		var_dump(isset($loans));
+		exit();*/
+		if(empty($loans)){
+			$data['message'] = ' Cart Is Empty!!!';
+			$data['wait'] = 3;
+			$data['url'] = site_url('admin/loan/listCart');
+			$this->load->view('message.html',$data);
+		}else{
+			for( $i = 0; $i<count($loans['card_id']); $i++ ) {
+	        	$data['Card_id'] = $loans['card_id'][$i];
+	        	$data['Loan_id'] = $loans['loan_id'][$i];
+	        	$data['Isbn'] = $loans['isbn'][$i];
+	        	if(!$this->loan_model->insert($data)){
+		        	$data['message'] = 'Chechout Cart Unsuccessfully';
+					$data['wait'] = 3;
+					$data['url'] = site_url('admin/loan/listCart');
+					$this->load->view('message.html',$data);
+	        	}
+	        }
+	        $this->session->unset_userdata('loanCart');
+	        $data['message'] = 'Chechout Cart Successfully';
+			$data['wait'] = 3;
+			$data['url'] = site_url('admin/loan/listCart');
+			$this->load->view('message.html',$data);
+		}
+		
 	}
 	public function index($offset="0"){
 		$config['base_url'] = site_url('admin/borrower/index');

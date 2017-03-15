@@ -27,8 +27,8 @@ class Loan_model extends CI_Model{
 		$query = $this->db->where($condition)->get(self::TL_Book_Loans);
 		return $query->num_rows();
 	}
-	public function checkReturnByIsbn($Isbn){
-		$condition = "Isbn= '".$Isbn."' and Date_in is NULL";
+	public function checkReturnByLoanid($Loan_id){
+		$condition = "Loan_id= '".$Loan_id."' and Date_in is NULL";
 		$query = $this->db->where($condition)->get(self::TL_Book_Loans);
 		return $query->num_rows();
 	}
@@ -55,15 +55,19 @@ class Loan_model extends CI_Model{
 		return count($result);
 	}
 	public function updateAvailability($Isbn){
-		$data['Availability'] = '0';
+		$data['Availability'] = 0;
 		return $this->db->where("Isbn =".$Isbn)->update('book',$data);
 	}
 	public function checkin($Loan_id){
-		$sql = "update book set Availability = '1' where Isbn = (select Isbn from book_loans where Loan_id = '".$Loan_id."')";
+		$sql = "update book set Availability = 1 where Isbn = (select Isbn from book_loans where Loan_id = '".$Loan_id."')";
 		return $this->db->query($sql);
 	}
 	public function updateInDate($Loan_id){
 		$sql="update book_loans set Date_in = CURRENT_TIMESTAMP where Loan_id = '".$Loan_id."'";
 		return $this->db->query($sql);
+	}
+	public function updateAvailabilityByIsbn($Isbn){
+		$data['Availability'] = 1;
+		return $this->db->where("Isbn =".$Isbn)->update('book',$data);
 	}
 }
