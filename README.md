@@ -28,7 +28,6 @@ click update file amount to update the fines table.
 could make the management easier.
 2. borrower cart, the manager do not need to check out all books for a user one by
 one, he/she could check out all by once and remove some books from the cart.
-3. All CRUD functions for book management.
-4.Designed a relational model for a simplified University Library database system, normalized with BCNF/4NF
+3. Designed a relational model for a simplified University Library database system, normalized with BCNF/4NF
 
 
